@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -*- coding: utf-8 -*-
 #  Copyright (C) 2014 Yusuke Suzuki <utatane.tea@gmail.com>
 #
@@ -30,15 +30,21 @@ ARCH="$(uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ -e s/amd64/x86/ \
                        -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
                        -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/)"
 BIT="$(getconf LONG_BIT)"
-case "$OS" in
-    Linux)
-        TARGET="$(readlink -f "${0}")"
-        ;;
-    *)
-        TARGET="$(readlink "${0}")"
-        ;;
-esac
 
+# http://stackoverflow.com/questions/5756524/how-to-get-absolute-path-name-of-shell-script-on-macos
+function read-link() {
+    local path=$1
+    if [ -d $path ] ; then
+        local abspath=$(cd $path; pwd)
+    else
+        local prefix=$(cd $(dirname -- $path) ; pwd)
+        local suffix=$(basename $path)
+        local abspath="$prefix/$suffix"
+    fi
+    echo $abspath
+}
+
+TARGET="$(read-link "${0}")"
 COMMAND="${TARGET}-${OS}-${ARCH}-${BIT}"
 
 if [ -e $COMMAND ]; then
