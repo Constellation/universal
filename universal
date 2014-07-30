@@ -44,8 +44,9 @@ case "$OS" in
         fi
         ;;
 esac
-
-COMMAND="${TARGET}-${OS}-${ARCH}-${BIT}"
+DIR="$(dirname ${TARGET})"
+BASENAME="$(basename "${0}")"
+COMMAND="${DIR}/${BASENAME}-${OS}-${ARCH}-${BIT}"
 
 if [ -e $COMMAND ]; then
     exec $COMMAND
