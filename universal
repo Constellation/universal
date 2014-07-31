@@ -36,7 +36,7 @@ case "$OS" in
         TARGET="$(\readlink -f "${0}")"
         ;;
     *)
-        if hash greadlink 2>/dev/null; then
+        if \hash greadlink 2>/dev/null; then
             TARGET="$(\greadlink "${0}")"
         else
             echo "GNU readlink command is needed."
@@ -44,8 +44,8 @@ case "$OS" in
         fi
         ;;
 esac
-DIR="$(dirname ${TARGET})"
-BASENAME="$(basename "${0}")"
+DIR="$(\dirname ${TARGET})"
+BASENAME="$(\basename "${0}")"
 COMMAND="${DIR}/${BASENAME}-${OS}-${ARCH}-${BIT}"
 
 if [ -e $COMMAND ]; then
