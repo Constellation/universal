@@ -37,7 +37,7 @@ case "$OS" in
         ;;
     *)
         if \hash greadlink 2>/dev/null; then
-            TARGET="$(\greadlink "${0}")"
+            TARGET="$(\greadlink -f "${0}")"
         else
             echo "GNU readlink command is needed."
             exit 1
